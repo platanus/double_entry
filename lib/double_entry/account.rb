@@ -80,15 +80,15 @@ module DoubleEntry
 
     class ActiveRecordScopeFactory
       def initialize(active_record_class)
-        @active_record_class = active_record_class
+        @active_record_class = active_record_class.to_s
       end
 
       def scope_identifier
         lambda do |value|
-          case value
+          case value.class.to_s
           when @active_record_class
             value.id
-          when String, Fixnum
+          when "String", "Fixnum"
             value
           else
             fail AccountScopeMismatchError, "Expected instance of `#{@active_record_class}`, received instance of `#{value.class}`"
